@@ -10,6 +10,9 @@ class I():
 		self.k=int(float(T_tot)/float(self.T))
 		self.delta_t=0.15
 
+	def Const(self):
+		return self.I_0
+
 	def Rect(self,t):
 		f=0
 		for i in range(1,self.k):
@@ -18,6 +21,7 @@ class I():
 
 	def Dirac(self,t):
 		f=0
+		factor=100
 		for i in range(1,self.k):
-			f+=pow(self.I_0,3)*where(abs(t-i*self.T)==0, 1, 0)   
+			f+=factor*self.I_0*where(abs(t-i*self.T)==0, 1, 0)   
 		return f
