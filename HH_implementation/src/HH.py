@@ -6,8 +6,8 @@ import In_current
 
 ######################################
 #  Basic implementation of HH model  #
-#  - Expand to ODE exact	         #
-#  - I(t) for train current          #
+#  - 3 integration method.	         #
+#  - 3 Impulse model				 #
 #  - Extension to long dynamics      #
 ######################################
 
