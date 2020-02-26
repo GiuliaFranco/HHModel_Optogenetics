@@ -14,6 +14,7 @@ class I():
 		return self.I_0
 
 	def Rect(self,t):
+		#self.delta_t=1/self.I_0
 		f=0
 		for i in range(1,self.k+1):
 			f+=self.I_0*where(abs(t-i*self.T)<=self.delta_t,1,0)
@@ -21,7 +22,7 @@ class I():
 
 	def Dirac(self,t):
 		f=0
-		factor=100
+		factor=self.delta_t
 		for i in range(1,self.k+1):
 			f+=factor*self.I_0*where(abs(t-i*self.T)==0, 1, 0)   
 		return f

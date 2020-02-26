@@ -11,22 +11,22 @@ class Plot_Maker():
     
     
     def Plot_n_m_h(self):
-        self.HH.Runge_Kutta(self.HH.t)
-        #plt.plot(self.HH.t,self.HH.V)
+        self.HH.Runge_Kutta(len(self.HH.t))
         plt.plot(self.HH.t,self.HH.n)
         plt.plot(self.HH.t,self.HH.m)
         plt.plot(self.HH.t,self.HH.h)
+        self.HH.Clearer()
         plt.legend(("n","m","h"))
         plt.xlabel("time (ms)")
         plt.ylabel("Channel openess")
         plt.title("m,n,h functions")
-        plt.savefig('../graphs/HH1.png')
-        plt.show()
+        plt.savefig('../graphs/WB_HH/HH1.png')
+        #plt.show()
 
     def Plot_Methods(self):
         #self.HH.Forward_Euler()
         #plt.plot(self.HH.t,self.HH.V)
-        self.HH.Clearer()
+        #self.HH.Clearer()
         self.HH.Runge_Kutta(len(self.HH.t))
         plt.plot(self.HH.t,self.HH.V)
         self.HH.Clearer()
@@ -35,8 +35,8 @@ class Plot_Maker():
         #plt.legend(("Euler","Runge-Kutta","PC"))
         plt.xlabel("time (ms)")
         plt.ylabel("V (mV)")
-        plt.title("HH solution (Dirac impulse (I=10 mA))")
-        plt.savefig('../graphs/HH_Refractory_HI_D.png')
+        plt.title("HH solution (Dirac impulse (I=5000 µA,no factor))")
+        plt.savefig('../graphs/original_HH/HH_noFactor_D_HI1.png')
         #plt.show()
 
 
@@ -84,14 +84,14 @@ class Plot_Maker():
                             
         for i in range(0,101):
             fig['layout']['sliders'][0]['steps'][i]['label']=i
-        plot(fig, filename='HH_I.html')
+        plot(fig, filename='../graphs/WB_HH/HH_I.html')
 
 
     def Current_plot(self):
         f=self.HH.I.Rect( np.asarray(self.HH.t, dtype=np.float32))
         plt.plot(self.HH.t, f)
         plt.xlabel('time. (ms)', fontsize=18)
-        plt.ylabel('I(t). (µA/cm^2)', fontsize=16)
+        plt.ylabel("I(t). (µA/cm^2)", fontsize=16)
         return plt
         #plt.show()
 
@@ -107,22 +107,23 @@ class Plot_Maker():
     def Multiplot(self):
         self.HH.Runge_Kutta(len(self.HH.t))
         fig, axs = plt.subplots(2)
-        #fig.suptitle('Input-Output (Runge_Kutta method,Dirac impulse)')
-        f=self.HH.I.Dirac( np.asarray(self.HH.t, dtype=np.float32))
+        fig.suptitle('Input-Output (Runge_Kutta method,Rect impulse)')
+        f=self.HH.I.Rect( np.asarray(self.HH.t, dtype=np.float32))
         axs[0].plot(self.HH.t,f)
         axs[0].set(xlabel='',ylabel='I(t). (µA/cm^2)')
         f=self.HH.Peak_Detection()
         axs[1].plot(self.HH.t, f,'tab:orange')
         axs[1].set(xlabel='time. (ms)',ylabel='Output')
-        #plt.savefig('../graphs/In_Out_D1.png')
+        plt.savefig('../graphs/WB_HH/In_Out_T6.png')
         #plt.show()
 
-model=HH.HH(3)
+
+model=HH.HH(30)
 plotter=Plot_Maker(model)
 #plotter.Plot_n_m_h()
 #plotter.Plot_Methods()
 #plotter.Current_plot()
 #plotter.Frequency_plot()
-#plotter.Interactive_Plot()
+plotter.Interactive_Plot()
 #plotter.Multiplot()
 plt.show()

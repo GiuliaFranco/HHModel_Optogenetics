@@ -16,7 +16,7 @@ class HH():
 		self.Cm = 0.5  # Membrane Capacitance (uF/cm^2)
 		self.Phi = 2.  # Temperture factor
 		self.dt = 0.01  # Time steps (ms)
-		self.T = 200.    # Total time of observations
+		self.T = 50.    # Total time of observations
 		self.t = np.arange(0, self.T,self.dt).tolist()  # Range Time for the stimulation (ms)
 		self.I = In_current.I(Iin,self.T)   # Injected current
 		#self.I=I
@@ -30,8 +30,8 @@ class HH():
 		self.n = []  # n potential list
 		self.m = []  # m potential list
 		self.h = []  # h potential list
-		self.A = Alpha_Beta.A_functions  # class with a_n,a_m,a_h functions
-		self.B = Alpha_Beta.B_functions  # class with b_n,b_m,b_h functions
+		self.A = Alpha_Beta.A_functions_WB  # class with a_n,a_m,a_h functions
+		self.B = Alpha_Beta.B_functions_WB  # class with b_n,b_m,b_h functions
 				
 	def Clearer(self):
 		self.V=[]
@@ -73,7 +73,7 @@ class HH():
 		INa=gNa*(V-self.ENa)
 		IK=gK*(V-self.EK)
 		Il=gl*(V-self.El)
-		I_in=self.I.Dirac(t)
+		I_in=self.I.Rect(t)
 		return [((1/self.Cm)*(I_in-(INa+IK+Il))),self.Phi*(self.A.A_n(V)*(1-n)-self.B.B_n(V)*n),self.Phi*(self.A.A_m(V)*(1-m)-self.B.B_m(V)*m),self.Phi*(self.A.A_h(V)*(1-h)-self.B.B_h(V)*h)]
 
 	
