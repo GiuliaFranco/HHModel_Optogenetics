@@ -5,10 +5,10 @@ class I():
 
 	def __init__(self,I_0,T_tot):
 		self.I_0=I_0   # Amplitude of impulse
-		self.T=6.     # Periodicity
+		self.T=1.     # Periodicity
 		self.T_tot=T_tot      # Total time of observation
 		self.k=int(float(T_tot)/float(self.T))   #number of positive impulses on the train
-		self.delta_t=0.15 # duration of impulse
+		self.delta_t=0.2 # duration of impulse
 
 	def Const(self):
 		return self.I_0
