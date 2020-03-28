@@ -48,9 +48,15 @@ float D_s2(float V){
 	return (3.3*exp((V+35)*sigma) + exp(-(V+35)*0.05))/(1+ exp(-(V+35)*0.1));
 };
 
-
+//WB
 float A_n( float V){ return .01*vtrap(-(V+55.),10.); };  //kHz
 float A_m(float V){ return .1 * vtrap(-(V+40.),10.);  };  //kHz
+
+
+//HH
+//float A_n( float V){ return .01*(V+55.)/(1-exp(-(V+55.)/10.)); };  //kHz
+//float A_m(float V){ return .1 * (V+40.)/(1-exp(-(V+40.)/10.));  };  //kHz
+
 
 float A_h(float V){ return .07 * exp(-(V+65.)/20.); };   //kHz
 
@@ -65,8 +71,6 @@ float B_h(float V){ return 1. / (exp(-(V+35.)/10.) + 1);  };
 double * HH_core(double I,double *y,double *s,double t,double Periodicity,double Tot){
 	double Cm = 0.5;  // Membrane Capacitance (uF/cm^2)
 	double Phi = 2.;  // Temperture factor
-	//double T = 50000.;    //Total time of observations
-	//double I = In_current.I(Iin,self.T)   // Injected current
 	double V_0=-60;  // mV Initial value
 	double ENa = 50; // mV Na potential
 	double EK = -77; // mV K potential

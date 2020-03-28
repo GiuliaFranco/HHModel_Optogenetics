@@ -4,7 +4,9 @@
 
 int main(int argc,char* argv[]){
 	char * ptr;
+	char * ptr1;
 	double T=strtod(argv[1], &ptr);   //ms periodicity
-	Euler(7.9,T);
+	double I=strtod(argv[2], &ptr1);
+	Euler(I,T);
 
 };

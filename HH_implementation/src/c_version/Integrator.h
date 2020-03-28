@@ -6,31 +6,6 @@
 #include <string.h>
 #include <stdio.h>
 
-/*
-void I_vect(int I0,int tot,int num,float * t){
-	float * current=(float*) calloc(num, sizeof(float));
-	for(int i=0;i<num;i++){
-		current[i]=In_current(t[i],I0,tot);
-		printf("%f\t  %f\n",current[i],t[i]);
-	};
-};
-
-
-void Latency(float * V,float * t,int tot,int delta,int num){
-	int k=0;
-	int i=0;
-	int periodicity=1;
-	int ktot=tot/periodicity;
-	for(int k=1;k<=ktot;k++){
-		for(int i=0;i<num;i++){
-			if(t[i]<fabs(delta+k*periodicity) && t[i]=>fabs(delta-k*periodicity))
-		}
-	};
-	
-
-};*/
-
-
 
 double * Calculator_aux(double I,double y_1,double y_2,double y_3,double y_4,double y_5,double y_6,double t,double Periodicity,double T){
 	double y[4] = {y_1,y_2,y_3,y_4};
@@ -41,7 +16,7 @@ double * Calculator_aux(double I,double y_1,double y_2,double y_3,double y_4,dou
 void Euler(double I,double Periodicity){
 	double I0=I;
 	double dt = 0.01;  // Time steps (ms)
-	double  T = 20000.;    // Total time of observations
+	double  T = 100000.;    // Total time of observations
 	double V_0= -60;
 	//double t = np.arange(self.T_start, self.T,self.dt).tolist()  # Range Time for the stimulation (ms)
 	int num=(T/dt);
@@ -74,8 +49,8 @@ void Euler(double I,double Periodicity){
 	
 	//Euler Forward
 
-	printf("%f\t %f\t %f\t %f\t %f\t %f\t %f\n",V[0],n[0],m[0],h[0],s1[0],s2[0],t[0]);
-	//printf("%f\t  %f\n",s1[0],t[0]);
+	//printf("%f\t %f\t %f\t %f\t %f\t %f\t %f\n",V[0],n[0],m[0],h[0],s1[0],s2[0],t[0]);
+	//printf("%f\t %f\t %f\n",h[0],s1[0],t[0]);
 	for(int i=1;i<=num;i++){
 		double * K_1=Calculator_aux(I0,V[i-1],n[i-1],m[i-1],h[i-1],s1[i-1],s2[i-1],t[i-1],Periodicity,T);
 		V[i]=(V[i-1]+K_1[0]*dt);
@@ -84,16 +59,16 @@ void Euler(double I,double Periodicity){
 		h[i]=(h[i-1]+K_1[3]*dt);
 		//s1[i]=1;
 		s2[i]=0;
-		//printf("%f\t  %f\n",V[i],t[i]);
 		s1[i]=(s1[i-1]+K_1[4]*dt);
 		//s2[i]=(s2[i-1]+K_1[5]*dt);
-		printf("%f\t %f\t %f\t %f\t %f\t %f\t %f\n",V[i],n[i],m[i],h[i],s1[i],s2[i],t[i]);
-		//printf("%f\t  %f\n",s1[i],t[i]);
+		//printf("%f\t %f\t %f\t %f\t %f\t %f\t %f\n",V[i],n[i],m[i],h[i],s1[i],s2[i],t[i]);
+		//printf("%f\t %f\t %f\n",h[i],s1[i],t[i]);
 		//free(K_1);
 	};
 
-	Mean(t,s1,(int) T);
-
+	//Mean(t,s1,(int) T);
+	//I_vect(I0,T,num,t,Periodicity);
+	Latency(I0,T,num,t,Periodicity,V);
 	free(t);
 	free(V);
 	free(m);
@@ -102,5 +77,5 @@ void Euler(double I,double Periodicity){
 	free(s1);
 	free(s2);
 		
-	//return V;	*/
+	//return V;	
 };
