@@ -148,7 +148,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define Q10_Gd1 Q10_Gd1_ChR2
  double Q10_Gd1 = 1.97;
 #define gamma gamma_ChR2
- double gamma = 0.1;
+ double gamma = 0.05;
 #define hc hc_ChR2
  double hc = 1.98645e-25;
 #define sigma_retinal sigma_retinal_ChR2
@@ -156,7 +156,7 @@ extern void hoc_reg_nmodl_filename(int, const char*);
 #define temp temp_ChR2
  double temp = 22;
 #define tauChR2 tauChR2_ChR2
- double tauChR2 = 1.3;
+ double tauChR2 = 3.2;
 #define wloss wloss_ChR2
  double wloss = 1.3;
  /* some parameters have upper and lower limits */
@@ -253,7 +253,7 @@ static void nrn_alloc(Prop* _prop) {
  	pulse_width = 100;
  	light_intensity = 5;
  	Irradiance = 0;
- 	wavelength = 600;
+ 	wavelength = 594;
  	_prop->param = _p;
  	_prop->param_size = 27;
  	_ppvar = nrn_prop_datum_alloc(_mechtype, 1, _prop);
@@ -341,16 +341,9 @@ static int  rates ( _threadargsprotocomma_ double _lv ) {
    _le21dark = 0.008 ;
    epsilon1 = 0.8535 ;
    epsilon2 = 0.14 ;
-   Gd1 = 0.075 + 0.043 * tanh ( - ( _lv + 20. ) / 20. ) ;
-   Gd2 = 0.05 ;
-   Gr = 0.0000434587 * exp ( - 0.0211539274 * _lv ) ;
-   _le12dark = _le12dark * pow( Q10_e12dark , ( ( celsius - temp ) / 10. ) ) ;
-   _le21dark = _le21dark * pow( Q10_e21dark , ( ( celsius - temp ) / 10. ) ) ;
-   epsilon1 = epsilon1 * pow( Q10_epsilon1 , ( ( celsius - temp ) / 10. ) ) ;
-   epsilon2 = epsilon2 * pow( Q10_epsilon2 , ( ( celsius - temp ) / 10. ) ) ;
-   Gd1 = Gd1 * pow( Q10_Gd1 , ( ( celsius - temp ) / 10. ) ) ;
-   Gd2 = Gd2 * pow( Q10_Gd2 , ( ( celsius - temp ) / 10. ) ) ;
-   Gr = Gr * pow( Q10_Gr , ( ( celsius - temp ) / 10. ) ) ;
+   Gd1 = 0.37 ;
+   Gd2 = 0.01 ;
+   Gr = 0.00000667 ;
    if ( Irradiance > 0.0 ) {
      _llogphi0 = log ( 1. + Irradiance / 0.024 ) ;
      }
@@ -636,17 +629,17 @@ static const char* nmodl_file_text =
   "	pulse_width     = 100.		(ms)		  : width of the light pulse\n"
   "	light_intensity = 5.					  : mW/mm^2, intensity of the light pulse\n"
   "    Irradiance      = 0.\n"
-  "    gamma           = 0.1					  : ratio of conductances in states O2/O1, unit-less\n"
+  "    gamma           = 0.05					  : ratio of conductances in states O2/O1, unit-less\n"
   "	A 				= 10.6408   (mV)          : Be careful with implementing eqs. 1 and 12!\n"
   "	B 				= -14.6408  (mV)		  :\n"
   "	C 				= -42.7671  (mV)          :\n"
   "\n"
-  "	wavelength 		= 600		    		  : wavelength of max absorption for retinal, nm\n"
+  "	wavelength 		= 594		    		  : wavelength of max absorption for retinal, nm\n"
   "	hc       		= 1.986446E-25  		  : Planck's constant * speed of light, kg m^3/s^2\n"
   "	wloss    		= 1.3      : scaling factor for losses of photons due to scattering or absorption\n"
   "	sigma_retinal 	= 12.E-20       		  : retinal cross-sectional area, m^2\n"
   "\n"
-  "	tauChR2  		= 1.3		(ms)          : time constant for ChR2 activation\n"
+  "	tauChR2  		= 3.2		(ms)          : time constant for ChR2 activation\n"
   "\n"
   "	temp 			= 22	  (degC)		  : original temperature\n"
   "	Q10_Gd1      	= 1.97					  : Q10 value for the temperature sensitivity\n"
@@ -760,18 +753,9 @@ static const char* nmodl_file_text =
   "	e21dark  = 0.008                                 : ms^-1\n"
   "	epsilon1 = 0.8535\n"
   "	epsilon2 = 0.14\n"
-  "	Gd1 = 0.075 + 0.043 * tanh( -(v+20.) / 20.)    	 : dark-adapted deactivation rate, ms^-1\n"
-  "	Gd2 = 0.05                                  	 : ms^-1\n"
-  "	Gr  = 0.0000434587 * exp(-0.0211539274 * v)    	 : recovery rate ms^-1\n"
-  "\n"
-  "	: These values are adjusted to the temperature specified by the user...\n"
-  "	e12dark  = e12dark  * Q10_e12dark^((celsius-temp)/10.)    : scale with temp, using Q10\n"
-  "	e21dark  = e21dark  * Q10_e21dark^((celsius-temp)/10.)    : scale with temp, using Q10\n"
-  "	epsilon1 = epsilon1 * Q10_epsilon1^((celsius-temp)/10.)   : scale with temp, using Q10\n"
-  "	epsilon2 = epsilon2 * Q10_epsilon2^((celsius-temp)/10.)   : scale with temp, using Q10\n"
-  "	Gd1 	 = Gd1           * Q10_Gd1^((celsius-temp)/10.)	  : scale with temp, using Q10\n"
-  "	Gd2 	 = Gd2           * Q10_Gd2^((celsius-temp)/10.)	  : scale with temp, using Q10\n"
-  "	Gr  	 = Gr             * Q10_Gr^((celsius-temp)/10.)   : scale with temp, using Q10\n"
+  "	Gd1 = 0.37    	 : dark-adapted deactivation rate, ms^-1\n"
+  "	Gd2 = 0.01                                  	 : ms^-1\n"
+  "	Gr  = 0.00000667    	 : recovery rate ms^-1\n"
   "\n"
   "	if (Irradiance>0) {\n"
   "		logphi0  = log(1. + Irradiance / 0.024)      : unit-less\n"

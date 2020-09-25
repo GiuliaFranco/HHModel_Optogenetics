@@ -56,17 +56,17 @@ PARAMETER {
 	pulse_width     = 100.		(ms)		  : width of the light pulse
 	light_intensity = 5.					  : mW/mm^2, intensity of the light pulse
     Irradiance      = 0.
-    gamma           = 0.1					  : ratio of conductances in states O2/O1, unit-less
+    gamma           = 0.05					  : ratio of conductances in states O2/O1, unit-less
 	A 				= 10.6408   (mV)          : Be careful with implementing eqs. 1 and 12!
 	B 				= -14.6408  (mV)		  :
 	C 				= -42.7671  (mV)          :
 
-	wavelength 		= 600		    		  : wavelength of max absorption for retinal, nm
+	wavelength 		= 594		    		  : wavelength of max absorption for retinal, nm
 	hc       		= 1.986446E-25  		  : Planck's constant * speed of light, kg m^3/s^2
 	wloss    		= 1.3      : scaling factor for losses of photons due to scattering or absorption
 	sigma_retinal 	= 12.E-20       		  : retinal cross-sectional area, m^2
 
-	tauChR2  		= 1.3		(ms)          : time constant for ChR2 activation
+	tauChR2  		= 3.2		(ms)          : time constant for ChR2 activation
 
 	temp 			= 22	  (degC)		  : original temperature
 	Q10_Gd1      	= 1.97					  : Q10 value for the temperature sensitivity
@@ -180,18 +180,9 @@ PROCEDURE rates(v (mV)) {
 	e21dark  = 0.008                                 : ms^-1
 	epsilon1 = 0.8535
 	epsilon2 = 0.14
-	Gd1 = 0.075 + 0.043 * tanh( -(v+20.) / 20.)    	 : dark-adapted deactivation rate, ms^-1
-	Gd2 = 0.05                                  	 : ms^-1
-	Gr  = 0.0000434587 * exp(-0.0211539274 * v)    	 : recovery rate ms^-1
-
-	: These values are adjusted to the temperature specified by the user...
-	e12dark  = e12dark  * Q10_e12dark^((celsius-temp)/10.)    : scale with temp, using Q10
-	e21dark  = e21dark  * Q10_e21dark^((celsius-temp)/10.)    : scale with temp, using Q10
-	epsilon1 = epsilon1 * Q10_epsilon1^((celsius-temp)/10.)   : scale with temp, using Q10
-	epsilon2 = epsilon2 * Q10_epsilon2^((celsius-temp)/10.)   : scale with temp, using Q10
-	Gd1 	 = Gd1           * Q10_Gd1^((celsius-temp)/10.)	  : scale with temp, using Q10
-	Gd2 	 = Gd2           * Q10_Gd2^((celsius-temp)/10.)	  : scale with temp, using Q10
-	Gr  	 = Gr             * Q10_Gr^((celsius-temp)/10.)   : scale with temp, using Q10
+	Gd1 = 0.37    	 : dark-adapted deactivation rate, ms^-1
+	Gd2 = 0.01                                  	 : ms^-1
+	Gr  = 0.00000667    	 : recovery rate ms^-1
 
 	if (Irradiance>0) {
 		logphi0  = log(1. + Irradiance / 0.024)      : unit-less

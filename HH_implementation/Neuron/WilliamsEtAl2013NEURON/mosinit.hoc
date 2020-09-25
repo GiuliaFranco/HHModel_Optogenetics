@@ -1,0 +1,3 @@
+load_file("nrngui.hoc")                     // Loading of the standard GUI controls...
+load_file("demo_Fig2B.hoc")
+//load_file("demo_Fig4B.hoc")

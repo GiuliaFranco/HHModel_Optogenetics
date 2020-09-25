@@ -1,0 +1,57 @@
+//
+// Demo
+// by Michele Giugliano, 7/8/2018 Trieste
+//
+
+load_file("nrngui.hoc")                   // Loading of the standard GUI controls...
+load_file("graphs.hoc")            // Loading some ad-hoc proc for displaying live traces...
+
+print "Demonstration of the ChR2-H134R model under voltage-clamp"
+print "from:"
+print "Williams JC, Xu J, Lu Z, Klimas A, Chen X, et al. (2013) Computational Optogenetics: Empirically-Derived Voltage- and Light-Sensitive Channelrhodopsin- 2 Model."
+print "PLoS Comput Biol 9(9): e1003220. doi:10.1371/journal.pcbi.1003220"
+print ""
+print "Original (MATLAB) code by: John C. Williams"
+print "Implemented by: Michele Giugliano, SISSA Trieste, 6/8/2018, mgiugliano@gmail.com"
+
+celsius = 22
+
+objref vc1, vc2
+
+create soma1
+access soma1
+insert ChR2
+light_delay_ChR2 = 10.
+pulse_width_ChR2 = 1000.
+insert pas
+vc1 = new VClamp(0.5)
+vc1.dur[0] = 10000.
+
+create soma2
+access soma2
+insert ChR2
+light_delay_ChR2 = 10.
+pulse_width_ChR2 = 1000.
+insert pas
+vc2 = new VClamp(0.5)
+vc2.dur[0] = 10000.
+
+print "Figure 4B"
+// Figure 4B
+access soma1
+light_intensity_ChR2 = 1.6
+vc1.amp[0] = -40.
+
+access soma2
+light_intensity_ChR2 = 1.6
+vc2.amp[0] = -80.
+
+t = 0. 							// ms - initial simulation time
+tstart = 0. 					// ms - initial simulation time
+tstop = 1500 					// ms - final simulation time
+
+addgraph("soma1.i_ChR2(0.5)", -.025, 0)
+g[0].addvar("soma2.i_ChR2(0.5)", -2, 0)
+run()
+
+
